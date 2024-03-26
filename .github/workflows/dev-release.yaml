@@ -1,0 +1,69 @@
+name: Publish latest artefact
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-frontend:
+    name: Test Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: ↩️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Install Node.js 18.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: 🏗️ Install packages
+        run: cd frontend && npm ci
+
+      - name: ✅ Test frontend
+        run: cd frontend && npm run type-check && npm run test:unit
+
+  test-backend:
+    name: Test Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: ↩️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin
+
+      - name: ✅ Test backend
+        run: ./gradlew --stacktrace check
+
+  build:
+    name: Build Artifact
+    runs-on: ubuntu-latest
+    needs:
+      - test-frontend
+      - test-backend
+    steps:
+      - name: ↩️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin
+
+      - name: ⚙️ Build application
+        run: ./gradlew --stacktrace backend:bootJar
+
+      - name: 🗄️ Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PlayTogetherKeyboard-latest
+          path: backend/build/libs/*.jar
+          retention-days: 7
+          overwrite: true

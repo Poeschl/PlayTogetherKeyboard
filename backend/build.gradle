@@ -1,0 +1,61 @@
+plugins {
+  id 'org.springframework.boot' version '3.2.3'
+  id 'io.spring.dependency-management' version '1.1.4'
+  id 'org.jetbrains.kotlin.jvm' version '1.9.22'
+  id 'org.jetbrains.kotlin.plugin.spring' version '1.9.22'
+  id 'org.jetbrains.kotlin.kapt' version "1.9.22"
+}
+
+group = 'xyz.poeschl.playtogetherkeyboard'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_21
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  runtimeOnly project(':frontend')
+
+  implementation 'org.springframework.boot:spring-boot-starter-validation'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-websocket'
+  implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+  implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+  implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+  implementation 'net.karneim:pojobuilder:4.3.0:annotations'
+
+  kapt 'net.karneim:pojobuilder:4.3.0'
+  kapt 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+  testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    exclude module: 'mockito-core'
+  }
+  testImplementation 'io.mockk:mockk:1.13.10'
+}
+
+kotlin {
+  jvmToolchain {
+    languageVersion.set(JavaLanguageVersion.of("21"))
+  }
+}
+
+kapt {
+  arguments {
+    arg('mapstruct.defaultComponentModel', 'spring')
+  }
+}
+
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+tasks.withType(Test).configureEach {
+  useJUnitPlatform()
+
+  testLogging {
+    events TestLogEvent.FAILED, TestLogEvent.PASSED, TestLogEvent.SKIPPED
+  }
+}
+
+bootJar {
+  archiveFileName = "${project.rootProject.name}-${version}.${archiveExtension.get()}"
+}

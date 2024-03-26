@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  traefik:
+    image: traefik:v2.10.3
+    command:
+      - --log.level=DEBUG
+      - --ping.entrypoint=web
+      - --providers.file.directory=/config
+      - --entrypoints.web.address=:8888
+      - --accesslog=true
+    network_mode: host
+    volumes:
+      - ./config:/config
+    environment:
+      - HOSTNAME
+
+volumes:
+  db-data:
