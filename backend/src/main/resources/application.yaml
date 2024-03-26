@@ -1,0 +1,23 @@
+spring:
+  mvc:
+    servlet:
+      path: /api
+
+server:
+  error:
+    include-message: always
+    whitelabel:
+      enabled: false
+  tomcat:
+    max-http-form-post-size: 10MB
+
+logging:
+  level:
+    xyz.poeschl.playtogetherkeyboard: debug
+    # org.springframework.messaging.simp.broker: DEBUG # Set this to debug to see Websocket messages
+    # org.springframework.security.messaging.web.socket: DEBUG # More websocket security output
+
+---
+# This is a second config section which gets activated when the "test" spring profile is active
+spring:
+  config.activate.on-profile: test

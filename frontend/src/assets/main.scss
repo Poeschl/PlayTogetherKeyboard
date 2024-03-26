@@ -1,0 +1,29 @@
+//@import "../../node_modules/minireset.css/minireset";
+//@import "custom-variables";
+//
+//@import "../../node_modules/bulma/bulma";
+//
+
+$radius: 4px;
+$primary: #981515;
+$link: lighten($primary, 20);
+
+@use "bulma/sass/utilities" with (
+  $radius: $radius,
+  $primary: $primary,
+  $link: lighten($primary, 20)
+);
+
+@forward "bulma/sass/base";
+@forward "bulma/sass/layout/container";
+@forward "bulma/sass/layout/level";
+@forward "bulma/sass/layout/section";
+@forward "bulma/sass/components/navbar";
+@forward "bulma/sass/helpers/spacing";
+@forward "bulma/sass/helpers/flexbox";
+@forward "bulma/sass/helpers/color";
+@forward "bulma/sass/helpers/visibility";
+@forward "bulma/sass/helpers/typography";
+
+// Import the themes so that all CSS variables have a value
+@forward "bulma/sass/themes";

@@ -1,0 +1,27 @@
+plugins {
+  id 'java'
+  id 'com.github.node-gradle.node' version '7.0.2'
+}
+
+tasks.register('npmBuild', NpmTask) {
+  dependsOn npmInstall
+  inputs.dir("src")
+  outputs.dir("dist")
+  args = ['run', 'build']
+}
+
+tasks.register('npmTest', NpmTask) {
+  dependsOn npmBuild
+  inputs.dir("src")
+  outputs.dir("dist")
+  args = ['run', 'test:unit']
+}
+
+tasks.register('integrateDistIntoResources', Copy) {
+  from "${tasks.npmBuild.outputs.files.singleFile}"
+  into file("${project.sourceSets.main.output.resourcesDir}/static")
+}
+
+tasks.withType(ProcessResources).configureEach {
+  dependsOn integrateDistIntoResources
+}
