@@ -5,10 +5,11 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { createPinia } from "pinia";
 import { useLogging } from "@/config/logging";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 const app = createApp(App);
 
-library.add();
+library.add(faGithub);
 app.component("FontAwesomeIcon", FontAwesomeIcon);
 
 // Use pinia for local state storing
