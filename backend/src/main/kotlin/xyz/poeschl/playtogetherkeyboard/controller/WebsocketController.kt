@@ -11,8 +11,13 @@ import xyz.poeschl.playtogetherkeyboard.service.KeyPressService
 class WebsocketController(private val messageTemplate: SimpMessagingTemplate, private val keyPressService: KeyPressService) {
 
   @MessageMapping("/keypress")
-  fun send(@Payload key: Key) {
-    keyPressService.registerKeyPress(key.char)
+  fun retrieveKeyPress(@Payload key: Key) {
+    keyPressService.registerKeyPress(key)
+    sendUpdate()
+  }
+
+  @MessageMapping("/update")
+  fun sendUpdate() {
     messageTemplate.convertAndSend("/topic/stats", keyPressService.getCurrentKeyPresses())
   }
 }

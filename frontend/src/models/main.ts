@@ -3,10 +3,11 @@ export interface KeyStatistics {
 }
 
 export interface KeyPress {
-  char: string;
+  key: Key;
   presses: number;
 }
 
 export interface Key {
-  char: string;
+  code: string;
+  key: string;
 }

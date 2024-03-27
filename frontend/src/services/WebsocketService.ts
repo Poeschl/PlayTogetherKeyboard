@@ -10,6 +10,7 @@ export function useWebSocket() {
   const websocketPath = "/api/ws";
   const statisticTopic = "/topic/stats";
   const keyPressTopic = "/app/keypress";
+  const updateTopic = "/app/update";
   const topicListener = new Map<WebSocketTopic, Function>();
   let websocketClient: Client | undefined = undefined;
 
@@ -19,6 +20,7 @@ export function useWebSocket() {
     websocketClient.onConnect = () => {
       log.info("Websocket connected");
       connectToTopics(websocketClient!!);
+      sendUpdateRequest();
     };
 
     websocketClient.activate();
@@ -58,8 +60,16 @@ export function useWebSocket() {
     });
   };
 
+  const sendUpdateRequest = () => {
+    if (websocketClient?.active) {
+      websocketClient.publish({ destination: updateTopic });
+    } else {
+      log.warn("Could not request update. WS client not connected!");
+    }
+  };
+
   const sendKeypress = (key: Key) => {
-    if (websocketClient) {
+    if (websocketClient?.active) {
       websocketClient.publish({ destination: keyPressTopic, body: JSON.stringify(key) });
     } else {
       log.warn("Could not send keystroke. WS client not connected!");

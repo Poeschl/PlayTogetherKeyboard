@@ -3,6 +3,8 @@ import { useWebSocket, WebSocketTopic } from "@/services/WebsocketService";
 import type { Key, KeyStatistics } from "@/models/main";
 import { ref } from "vue";
 
+const websocketService = useWebSocket();
+
 export const useDataStore = defineStore("dataStore", () => {
   const keyStatistics = ref<KeyStatistics>({ keys: [] });
 
@@ -11,14 +13,13 @@ export const useDataStore = defineStore("dataStore", () => {
   };
 
   const initWebsocket = () => {
-    const websocketService = useWebSocket();
     websocketService.initWebsocket();
     websocketService.registerForTopicCallback(WebSocketTopic.STATISTIC_TOPIC, updateStats);
   };
 
-  const sendKeyType = (key: Key) => {
-    useWebSocket().sendKeypress(key);
+  const sendKeyStroke = (key: Key) => {
+    websocketService.sendKeypress(key);
   };
 
-  return { initWebsocket, keyStatistics, sendKeyType };
+  return { initWebsocket, keyStatistics, sendKeyStroke };
 });

@@ -11,7 +11,9 @@
         </div>
       </div>
       <div class="level">
-        <div class="level-left"></div>
+        <div class="level-left">
+          {{ pressedKeys }}
+        </div>
         <div class="level-right">
           {{ JSON.stringify(dataStore.keyStatistics.keys) }}
         </div>
@@ -23,11 +25,31 @@
 <script setup lang="ts">
 import NavBar from "@/components/NavBar.vue";
 import { useDataStore } from "@/stores/DataStore";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
+import { useMagicKeys } from "@vueuse/core";
+import type { Key } from "@/models/main";
 
 const dataStore = useDataStore();
 
+const pressedKeys = ref<string[]>([]);
+
 onMounted(() => {
   dataStore.initWebsocket();
+  useMagicKeys({ onEventFired: onKey });
 });
+
+const onKey = (keyEvent: KeyboardEvent) => {
+  if (keyEvent.type == "keydown") {
+    const key: Key = { code: keyEvent.code, key: keyEvent.key };
+    dataStore.sendKeyStroke(key);
+    visualiseKey(key);
+  }
+};
+
+const visualiseKey = (key: Key) => {
+  const updatedList = pressedKeys.value;
+  updatedList.push(key.key);
+  pressedKeys.value = [];
+  pressedKeys.value = updatedList;
+};
 </script>
