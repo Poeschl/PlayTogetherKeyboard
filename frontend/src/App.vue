@@ -12,10 +12,15 @@
       </div>
       <div class="level">
         <div class="level-left">
-          {{ pressedKeys }}
+          <div class="level-item">
+            {{ pressedKeys }}
+          </div>
         </div>
         <div class="level-right">
-          {{ JSON.stringify(dataStore.keyStatistics.keys) }}
+          <div class="level-item is-flex is-flex-direction-column">
+            <div>{{ JSON.stringify(dataStore.keyStatistics.keys) }}</div>
+            <div>{{ JSON.stringify(dataStore.lastPressedKey) }}</div>
+          </div>
         </div>
       </div>
     </main>

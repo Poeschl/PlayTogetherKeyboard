@@ -4,11 +4,13 @@ import type { Key, KeyStatistics } from "@/models/main";
 
 export enum WebSocketTopic {
   STATISTIC_TOPIC = 0,
+  LAST_PRESSED_KEY_TOPIC,
 }
 
 export function useWebSocket() {
   const websocketPath = "/api/ws";
   const statisticTopic = "/topic/stats";
+  const lastPressedTopic = "/topic/lastPressed";
   const keyPressTopic = "/app/keypress";
   const updateTopic = "/app/update";
   const topicListener = new Map<WebSocketTopic, Function>();
@@ -57,6 +59,11 @@ export function useWebSocket() {
     client.subscribe(statisticTopic, (message) => {
       const keyStats: KeyStatistics = JSON.parse(message.body);
       topicListener.get(WebSocketTopic.STATISTIC_TOPIC)?.call(null, keyStats);
+    });
+
+    client.subscribe(lastPressedTopic, (message) => {
+      const key: Key = JSON.parse(message.body);
+      topicListener.get(WebSocketTopic.LAST_PRESSED_KEY_TOPIC)?.call(null, key);
     });
   };
 

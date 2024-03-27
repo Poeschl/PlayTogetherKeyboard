@@ -19,6 +19,11 @@ After downloading the server can be started via commandline as follows:
 java -jar PlayTogetherKeyboard-x.x.x.jar
 ```
 
+Optionally following environment variables are picked up by the application:
+
+* `PTK_INTERVAL = X` Set the evaluation interval to X seconds (Default: 1)
+* `DRYRUN = true|false` Set dryrun option to prevent key triggering. (Useful for development)
+
 ## Note
 
 This software will get no versioning and lives on the bloody main branch.
