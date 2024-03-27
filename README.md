@@ -3,6 +3,8 @@
 I simply needed something that grabs keystrokes from serveral hosts via a webpage and calculates the key with the most keypresses.
 This keypress is then executed on the server host. The idea is to use it for playing singleplayer games "together" with more people.
 
+![Screenshot](docs/screenshot.png)
+
 ## Features
 
 * Simple Key Press website
@@ -23,6 +25,13 @@ Optionally following environment variables are picked up by the application:
 
 * `PTK_INTERVAL = X` Set the evaluation interval to X seconds (Default: 1)
 * `DRYRUN = true|false` Set dryrun option to prevent key triggering. (Useful for development)
+
+An example:
+
+```bash
+# Set the interval to 10 seconds
+PTK_INTERVAL = 10 java -jar PlayTogetherKeyboard-x.x.x.jar
+```
 
 ## Note
 
