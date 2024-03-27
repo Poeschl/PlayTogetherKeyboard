@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { useDataStore } from "@/stores/DataStore";
 import { computed } from "vue";
-import useKeySanitizer from "@/services/KeyLabelConverter";
+import useKeySanitizer from "@/services/KeySanitizer";
 
 const dataStore = useDataStore();
 

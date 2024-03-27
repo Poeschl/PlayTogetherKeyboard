@@ -12,7 +12,7 @@ import { useDataStore } from "@/stores/DataStore";
 import { computed } from "vue";
 import { BarChart } from "vue-chart-3";
 import { Chart, type ChartOptions, registerables } from "chart.js";
-import useKeySanitizer from "@/services/KeyLabelConverter";
+import useKeySanitizer from "@/services/KeySanitizer";
 
 Chart.register(...registerables);
 

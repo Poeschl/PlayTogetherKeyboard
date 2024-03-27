@@ -13,9 +13,7 @@
       <div class="columns">
         <div class="column">
           <LastPressedKeyDisplay />
-          <div class="box is-fullwidth">
-            {{ pressedKeys }}
-          </div>
+          <LocalPressedDisplay ref="localPressed" />
         </div>
         <div class="column">
           <div class="is-flex is-flex-direction-column">
@@ -35,10 +33,12 @@ import { useMagicKeys } from "@vueuse/core";
 import type { Key } from "@/models/main";
 import KeyChart from "@/components/KeyChart.vue";
 import LastPressedKeyDisplay from "@/components/LastPressedKeyDisplay.vue";
+import LocalPressedDisplay from "@/components/LocalPressedDisplay.vue";
+import useKeySanitizer from "@/services/KeySanitizer";
 
 const dataStore = useDataStore();
 
-const pressedKeys = ref<string[]>([]);
+const localPressed = ref<typeof LocalPressedDisplay>();
 
 onMounted(() => {
   dataStore.initWebsocket();
@@ -49,14 +49,7 @@ const onKey = (keyEvent: KeyboardEvent) => {
   if (keyEvent.type == "keydown") {
     const key: Key = { code: keyEvent.code, key: keyEvent.key };
     dataStore.sendKeyStroke(key);
-    visualiseKey(key);
+    localPressed.value?.newKey(useKeySanitizer().sanitizeLabel(key.key));
   }
-};
-
-const visualiseKey = (key: Key) => {
-  const updatedList = pressedKeys.value;
-  updatedList.push(key.key);
-  pressedKeys.value = [];
-  pressedKeys.value = updatedList;
 };
 </script>

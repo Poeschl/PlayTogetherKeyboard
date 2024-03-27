@@ -17,16 +17,18 @@ $primary: #981515;
 );
 
 @forward "bulma/sass/base";
+@forward "bulma/sass/elements/button";
+@forward "bulma/sass/elements/icon";
 @forward "bulma/sass/layout/container";
 @forward "bulma/sass/layout/level";
 @forward "bulma/sass/layout/section";
-@forward "bulma/sass/grid/columns-v2";
 @forward "bulma/sass/components/navbar";
 @forward "bulma/sass/helpers/spacing";
 @forward "bulma/sass/helpers/flexbox";
 @forward "bulma/sass/helpers/color";
 @forward "bulma/sass/helpers/visibility";
 @forward "bulma/sass/helpers/typography";
+@forward "bulma/sass/grid/columns-v2";
 
 // Import the themes so that all CSS variables have a value
 @forward "bulma/sass/themes";
