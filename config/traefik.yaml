@@ -9,7 +9,7 @@ http:
       entryPoints:
         - web
       service: backend
-      rule: PathPrefix(`/api`)
+      rule: PathPrefix(`/ws`)
 
   services:
     frontend:
@@ -26,10 +26,10 @@ http:
     backend:
       loadBalancer:
         healthCheck:
-          path: /api/ping
+          path: /ping
           port: 8080
           interval: 1s
         servers:
-          - url: http://localhost:8080/api/ # For linux and windows WSL
-          - url: http://{{ env "HOSTNAME" }}:8080/api/ # For the windows host Machine
+          - url: http://localhost:8080/ # For linux and windows WSL
+          - url: http://{{ env "HOSTNAME" }}:8080/ # For the windows host Machine
         passHostHeader: true

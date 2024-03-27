@@ -15,6 +15,11 @@ This keypress is then executed on the server host. The idea is to use it for pla
 The application is packed into an executable jar file, which can be downloaded via the [actions page](https://github.com/Poeschl/PlayTogetherKeyboard/actions).
 Grab the last one and also make sure to have at least [Java 21](https://adoptium.net/de/temurin/releases/?package=jdk&version=21) installed on your system.
 
+> Unfortunately some bugfix steps are necessary to make the button press work.
+  For that open the jar file with an archive application and extract the native library (system-dependent) from the path
+  `BOOT-INF\lib\jnativehook-2.2.2.jar\com\github\kwhat\jnativehook\lib\` beside the jar file.
+  The jar and the JNativeHook lib file need to be side-by-side in the same folder to work
+
 After downloading the server can be started via commandline as follows:
 
 ```bash
@@ -30,8 +35,12 @@ An example:
 
 ```bash
 # Set the interval to 10 seconds
-PTK_INTERVAL = 10 java -jar PlayTogetherKeyboard-x.x.x.jar
+PTK_INTERVAL=10 java -jar PlayTogetherKeyboard-x.x.x.jar
 ```
+
+## Usage
+
+After starting the jar file the website is available at http://localhost:8080. Which can be accessed by anyone in the same network.
 
 ## Note
 

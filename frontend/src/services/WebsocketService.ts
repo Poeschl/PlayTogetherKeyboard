@@ -8,7 +8,7 @@ export enum WebSocketTopic {
 }
 
 export function useWebSocket() {
-  const websocketPath = "/api/ws";
+  const websocketPath = "/ws";
   const statisticTopic = "/topic/stats";
   const lastPressedTopic = "/topic/lastPressed";
   const keyPressTopic = "/app/keypress";

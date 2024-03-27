@@ -50,7 +50,11 @@ class KeyPressService(
     }
     LOGGER.info("Started evaluation timer with interval {} seconds", evaluationInterval)
     fixedRateTimer(period = evaluationInterval.seconds.inWholeMilliseconds, initialDelay = 0, daemon = true) {
-      evaluateKeyPress()
+      try {
+        evaluateKeyPress()
+      } catch (ex: Exception) {
+        LOGGER.error(ex.message, ex)
+      }
     }
   }
 
