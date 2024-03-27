@@ -12,9 +12,7 @@
       </div>
       <div class="columns">
         <div class="column">
-          <div class="box is-fullwidth">
-            {{ JSON.stringify(dataStore.lastPressedKey) }}
-          </div>
+          <LastPressedKeyDisplay />
           <div class="box is-fullwidth">
             {{ pressedKeys }}
           </div>
@@ -36,6 +34,7 @@ import { onMounted, ref } from "vue";
 import { useMagicKeys } from "@vueuse/core";
 import type { Key } from "@/models/main";
 import KeyChart from "@/components/KeyChart.vue";
+import LastPressedKeyDisplay from "@/components/LastPressedKeyDisplay.vue";
 
 const dataStore = useDataStore();
 

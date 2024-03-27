@@ -12,6 +12,7 @@ import { useDataStore } from "@/stores/DataStore";
 import { computed } from "vue";
 import { BarChart } from "vue-chart-3";
 import { Chart, type ChartOptions, registerables } from "chart.js";
+import useKeySanitizer from "@/services/KeyLabelConverter";
 
 Chart.register(...registerables);
 
@@ -39,7 +40,7 @@ const options: ChartOptions = {
 const data = computed(() => {
   const keys = dataStore.keyStatistics.keys;
 
-  const labels = keys.map((key) => key.key.key);
+  const labels = keys.map((key) => useKeySanitizer().sanitizeLabel(key.key.key));
   const data = keys.map((key) => key.presses);
 
   return { labels: labels, datasets: [{ data: data, backgroundColor: "#b74b4b" }] };
