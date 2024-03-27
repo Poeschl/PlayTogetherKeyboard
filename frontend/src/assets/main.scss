@@ -4,20 +4,23 @@
 //@import "../../node_modules/bulma/bulma";
 //
 
-$radius: 4px;
 $primary: #981515;
-$link: lighten($primary, 20);
 
 @use "bulma/sass/utilities" with (
-  $radius: $radius,
+  $radius: 4px,
   $primary: $primary,
   $link: lighten($primary, 20)
+);
+
+@use "bulma/sass/elements/box" with (
+  $box-background-color: lighten(utilities.$black, 10)
 );
 
 @forward "bulma/sass/base";
 @forward "bulma/sass/layout/container";
 @forward "bulma/sass/layout/level";
 @forward "bulma/sass/layout/section";
+@forward "bulma/sass/grid/columns-v2";
 @forward "bulma/sass/components/navbar";
 @forward "bulma/sass/helpers/spacing";
 @forward "bulma/sass/helpers/flexbox";

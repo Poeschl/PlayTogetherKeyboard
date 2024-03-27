@@ -10,16 +10,18 @@
           </p>
         </div>
       </div>
-      <div class="level">
-        <div class="level-left">
-          <div class="level-item">
+      <div class="columns">
+        <div class="column">
+          <div class="box is-fullwidth">
+            {{ JSON.stringify(dataStore.lastPressedKey) }}
+          </div>
+          <div class="box is-fullwidth">
             {{ pressedKeys }}
           </div>
         </div>
-        <div class="level-right">
-          <div class="level-item is-flex is-flex-direction-column">
-            <div>{{ JSON.stringify(dataStore.keyStatistics.keys) }}</div>
-            <div>{{ JSON.stringify(dataStore.lastPressedKey) }}</div>
+        <div class="column">
+          <div class="is-flex is-flex-direction-column">
+            <KeyChart />
           </div>
         </div>
       </div>
@@ -33,6 +35,7 @@ import { useDataStore } from "@/stores/DataStore";
 import { onMounted, ref } from "vue";
 import { useMagicKeys } from "@vueuse/core";
 import type { Key } from "@/models/main";
+import KeyChart from "@/components/KeyChart.vue";
 
 const dataStore = useDataStore();
 

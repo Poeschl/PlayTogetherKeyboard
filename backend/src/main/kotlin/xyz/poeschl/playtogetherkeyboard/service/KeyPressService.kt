@@ -4,7 +4,7 @@ import com.github.kwhat.jnativehook.GlobalScreen
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.context.event.ApplicationStartedEvent
+import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Service
 import xyz.poeschl.playtogetherkeyboard.models.Key
@@ -32,8 +32,10 @@ class KeyPressService(
   private val currentKeyPresses = mutableMapOf<Key, Int>()
 
   fun registerKeyPress(key: Key) {
-    synchronized(currentKeyPresses) {
-      currentKeyPresses[key] = currentKeyPresses.getOrDefault(key, 0) + 1
+    if (keyMappingService.isKeyKnown(key)) {
+      synchronized(currentKeyPresses) {
+        currentKeyPresses[key] = currentKeyPresses.getOrDefault(key, 0) + 1
+      }
     }
   }
 
@@ -41,7 +43,7 @@ class KeyPressService(
     return KeyStatistics(currentKeyPresses.map { KeyPress(it.key, it.value) }.sortedByDescending { it.presses })
   }
 
-  @EventListener(ApplicationStartedEvent::class)
+  @EventListener(ApplicationReadyEvent::class)
   fun startEvaluationTimer() {
     if (dryRun) {
       LOGGER.info("### DRY RUN ACTIVE ###")
