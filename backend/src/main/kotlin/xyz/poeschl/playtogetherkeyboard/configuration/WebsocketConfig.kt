@@ -9,7 +9,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-class WebsocketConfig : WebSocketMessageBrokerConfigurer {
+class WebsocketConfig(private val clientInterceptor: WebsocketClientInterceptor) : WebSocketMessageBrokerConfigurer {
 
   override fun configureMessageBroker(registry: MessageBrokerRegistry) {
     registry.setApplicationDestinationPrefixes("/app")
@@ -22,5 +22,6 @@ class WebsocketConfig : WebSocketMessageBrokerConfigurer {
 
   override fun configureClientInboundChannel(registration: ChannelRegistration) {
     super.configureClientInboundChannel(registration)
+    registration.interceptors(clientInterceptor)
   }
 }

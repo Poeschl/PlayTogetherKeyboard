@@ -35,10 +35,12 @@ export function useWebSocket() {
   const createClient = (): Client => {
     const protocol = location.protocol == "https:" ? "wss" : "ws";
     const websocketUrl = `${protocol}://${location.host}${websocketPath}`;
+    const clientId = genUuidv4();
 
     return new Client({
       brokerURL: websocketUrl,
       stompVersions: new Versions(["1.2"]),
+      connectHeaders: { clientId: clientId },
 
       onWebSocketError: (error) => {
         log.error(`Error with websocket (${JSON.stringify(error)})`);
@@ -81,6 +83,12 @@ export function useWebSocket() {
     } else {
       log.warn("Could not send keystroke. WS client not connected!");
     }
+  };
+
+  const genUuidv4 = () => {
+    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
+      (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16),
+    );
   };
 
   return { initWebsocket, registerForTopicCallback, sendKeypress };
